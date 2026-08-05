@@ -1,5 +1,11 @@
 # Changes
 
+## Unreleased
+
+- Preserve `%previous` context when a turn returns `ERR: No Reply Matched`
+  or `ERR: No Reply Found` (do not overwrite `history.reply[0]`)
+- Add `eg/previous` demo for `%previous` surviving unmatched replies
+
 ## 0.1.1
 
 - Ship the sample brain (`eg/brain`) inside the gem

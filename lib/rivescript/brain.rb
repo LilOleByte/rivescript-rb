@@ -265,8 +265,13 @@ class RiveScript
         begin
           history["input"].pop
           history["input"].unshift(msg)
-          history["reply"].pop
-          history["reply"].unshift(reply)
+          # Keep %previous intact when nothing matched / no reply was found.
+          # Otherwise ERR strings overwrite history.reply[0] and short
+          # conversations cannot continue (aichaos/rivescript-js#411).
+          unless error_reply?(reply)
+            history["reply"].pop
+            history["reply"].unshift(reply)
+          end
         rescue StandardError
           history = new_history
         end
@@ -981,6 +986,11 @@ class RiveScript
         "input" => Array.new(10, "undefined"),
         "reply" => Array.new(10, "undefined")
       }
+    end
+
+    def error_reply?(reply)
+      reply == @master.errors["replyNotMatched"] ||
+        reply == @master.errors["replyNotFound"]
     end
   end
 end

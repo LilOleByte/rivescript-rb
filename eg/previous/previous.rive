@@ -1,0 +1,35 @@
+// %Previous short conversations
+//
+// Demonstrates that unmatched replies (ERR: No Reply Matched) do not
+// overwrite history.reply[0], so %previous context survives
+// (aichaos/rivescript-js#411).
+//
+// Try:
+//   explain previous
+//   ask me a question
+//   lol          → ERR: No Reply Matched  (context kept)
+//   2            → Yes!
+
++ explain previous
+- %previous matches the bot's last reply.
+^ After I ask a question, number answers use that context.
+^ Unmatched input returns ERR: No Reply Matched but keeps
+^ the question in history so you can still answer.
+^ Say: ask me a question
+
++ ask me a question
+- How many arms do I have?
+
+// Prefer these while the last bot reply was the question
++ [*] # [*]
+% how many arms do i have
+* <star> == 2 => Yes!
+- No!
+
++ *
+% how many arms do i have
+- That isn't a number.
+
+// No catch-all on purpose: unmatched turns return ERR: No Reply Matched
+// without clearing %previous. Add `+ *` / `- I don't know.` if you want
+// to hide the error string from users.

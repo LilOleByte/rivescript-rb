@@ -57,6 +57,45 @@ class TestReplies < Minitest::Test
     bot.assert_reply(self, "red", "Red is a pretty color for a car.")
   end
 
+  # Unmatched / not-found replies must not overwrite history.reply[0], or
+  # %previous short conversations are lost (rivescript-js#411).
+  def test_previous_preserved_on_no_match
+    bot = RiveScriptTestCase.new(<<~RIVE)
+      + ask me a question
+      - How many arms do I have?
+
+      + [*] # [*]
+      % how many arms do i have
+      * <star> == 2 => Yes!
+      - No!
+    RIVE
+    bot.assert_reply(self, "Ask me a question", "How many arms do I have?")
+    bot.assert_reply(self, "lol", "ERR: No Reply Matched")
+    history = bot.rs.get_uservar(bot.username, "__history__")
+    assert_equal "How many arms do I have?", history["reply"][0]
+    bot.assert_reply(self, "2", "Yes!")
+  end
+
+  def test_previous_preserved_on_no_reply_found
+    bot = RiveScriptTestCase.new(<<~RIVE)
+      + ask me a question
+      - How many arms do I have?
+
+      + [*] # [*]
+      % how many arms do i have
+      * <star> == 2 => Yes!
+      - No!
+
+      + condition only
+      * <get name> == Aiden => Your name is Aiden!
+    RIVE
+    bot.assert_reply(self, "Ask me a question", "How many arms do I have?")
+    bot.assert_reply(self, "condition only", "ERR: No Reply Found")
+    history = bot.rs.get_uservar(bot.username, "__history__")
+    assert_equal "How many arms do I have?", history["reply"][0]
+    bot.assert_reply(self, "2", "Yes!")
+  end
+
   def test_random
     bot = RiveScriptTestCase.new(<<~RIVE)
       + test random response
