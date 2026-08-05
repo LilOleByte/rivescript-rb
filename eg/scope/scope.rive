@@ -1,0 +1,22 @@
+// Example of a scoped object macro (Ruby).
+
++ *
+- No reply for that. Type "scope test" to test the scope functionality.
+
++ scope test
+- Testing the scope!\n<call>scopeTest</call>
+
+> object scopeTest ruby
+  # Call a method on the host bot (scope)
+  result = private_function
+
+  # Read an instance variable
+  hello = @hello
+
+  # Modify an instance variable
+  @counter += 1
+
+  return "Function result: #{result}\n" \
+         "this.hello: #{hello}\n" \
+         "this.counter: #{@counter}"
+< object

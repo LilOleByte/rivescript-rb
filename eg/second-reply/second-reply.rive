@@ -1,0 +1,19 @@
+// Example of an asynchronous object macro (Ruby).
+
++ *
+- No reply for that. Type "reply test" to test the asynchronous macro.
+
++ reply test
+- Wait for it... <call>replyTest</call>
+
+> object replyTest ruby
+  nick = rs.current_user
+
+  # Send a second reply after 2 seconds via the host bot's send_message.
+  Thread.new do
+    sleep 2
+    send_message(nick, "Second reply!")
+  end
+
+  return ""
+< object

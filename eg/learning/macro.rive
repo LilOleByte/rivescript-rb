@@ -1,0 +1,51 @@
+! version = 2.0
+
+/*******************************************************************************
+Self Learning RiveScript Example (Ruby)
+
+Trigger:  when i say * you say *
+
+Learned replies are saved in learned.rive (path comes from the host bot's
+learned_path method when available).
+*******************************************************************************/
+
++ {weight=100}when i say * you say *
+- <call>learn "<star1>" "{sentence}<star2>{/sentence}"</call>
+
+> object learn ruby
+  user_message = args[0]
+  bot_message  = args[1]
+  user = rs.current_user
+
+  orig = rs.get_uservar(user, "origMessage")
+  if orig != "undefined" && !orig.nil?
+    if (m = orig.match(/\Awhen i say (.+?) you say (.+)\z/i))
+      user_message = m[1].downcase
+      bot_message  = m[2][0].upcase + m[2][1..]
+    end
+  end
+
+  code = <<~RIVE
+
+    // Taught to me by #{user}
+    + #{user_message}
+    - #{bot_message}
+  RIVE
+
+  reply = "I have learned: when you say \"#{user_message}\" I should say \"#{bot_message}\""
+  rs.stream(code)
+  rs.sort_replies
+
+  learned = if respond_to?(:learned_path)
+              learned_path
+            else
+              File.expand_path("learned.rive")
+            end
+
+  scratch = RiveScript.new(enable_object_macros: false)
+  scratch.load_file(learned) if File.file?(learned)
+  scratch.stream(code)
+  scratch.write(learned)
+
+  return reply
+< object

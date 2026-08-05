@@ -1,0 +1,81 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Interactive RiveScript shell for Ruby.
+# Copyright (c) Byte <byte@jvmlab.org> (https://jvmlab.org/)
+# MIT License
+
+require "optparse"
+require_relative "../lib/rivescript"
+
+opts = {
+  debug: false,
+  utf8: false,
+  brain: nil
+}
+
+parser = OptionParser.new do |o|
+  o.banner = "Usage: riveshell [options] </path/to/brain>"
+  o.on("--debug", "Enable debug mode") { opts[:debug] = true }
+  o.on("--utf8", "Enable UTF-8 mode") { opts[:utf8] = true }
+  o.on("-h", "--help", "Show help") do
+    puts o
+    exit
+  end
+end
+parser.parse!
+
+opts[:brain] = ARGV.shift
+if opts[:brain].nil?
+  warn parser
+  exit 1
+end
+
+bot = RiveScript.new(
+  debug: opts[:debug],
+  utf8: opts[:utf8],
+  concat: "newline"
+)
+
+puts "      .   ."
+puts "     .:...::      RiveScript Interpreter (Ruby)"
+puts "    .::   ::.     Library Version: v#{bot.version}"
+puts " .::    .   ::.   https://jvmlab.org/"
+puts "     :.   :."
+puts "     :. . :"
+puts "      :::    Type '/quit' or Ctrl-D to exit."
+puts "       :"
+puts
+
+begin
+  bot.load_directory(opts[:brain])
+  bot.sort_replies
+rescue StandardError => e
+  warn "Error loading brain: #{e.message}"
+  exit 1
+end
+
+username = "localuser"
+print "You> "
+$stdout.flush
+
+while (line = $stdin.gets)
+  line = line.strip
+  break if line == "/quit" || line == "/exit"
+
+  if line == "/help"
+    puts "Commands: /quit /exit /help"
+  elsif !line.empty?
+    begin
+      reply = bot.reply(username, line)
+      puts "Bot> #{reply}"
+    rescue StandardError => e
+      warn "Error: #{e.message}"
+    end
+  end
+
+  print "You> "
+  $stdout.flush
+end
+
+puts
