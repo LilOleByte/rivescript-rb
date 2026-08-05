@@ -5,15 +5,19 @@ on:
     tags:
       - "v*"
 
-permissions:
-  contents: write
-
 jobs:
   release:
     name: Publish gem release
     runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: write
+      id-token: write
+
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -27,6 +31,9 @@ jobs:
       - name: Build and verify package
         run: bundle exec rake package
 
+      - name: Publish to RubyGems.org
+        uses: rubygems/release-gem@v1
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -36,10 +43,16 @@ jobs:
 
             Includes the interpreter and the bundled sample brain (`eg/brain`).
 
-            Install from the attached `.gem`:
+            Install from RubyGems:
 
             ```bash
-            gem install rivescript-*.gem
+            gem install rivescript
+            ```
+
+            Or in a Gemfile:
+
+            ```ruby
+            gem "rivescript", "~> 0.1.1"
             ```
 
             Load the shipped brain in any app:

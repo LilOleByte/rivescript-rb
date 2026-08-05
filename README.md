@@ -17,13 +17,7 @@ implementation.
 Add to your `Gemfile`:
 
 ```ruby
-# From GitHub (tagged release)
-gem "rivescript",
-    git: "https://github.com/LilOleByte/rivescript-rb.git",
-    tag: "v0.1.1"
-
-# Later, once published to RubyGems:
-# gem "rivescript", "~> 0.1.1"
+gem "rivescript", "~> 0.1.1"
 ```
 
 Then:
@@ -41,16 +35,13 @@ bundle exec riveshell
 
 ### System / user gem (CLI and scripts)
 
-From a release `.gem` (CI artifact or local build):
-
 ```bash
-gem install rivescript-0.1.1.gem
+gem install rivescript
 ```
 
-Put Ruby gem binaries on your `PATH` (once):
+Put Ruby gem binaries on your `PATH` if needed:
 
 ```bash
-# User install location on this machine:
 export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 ```
 
@@ -60,7 +51,14 @@ Then:
 riveshell
 ```
 
-### Build from this repository
+### From GitHub or this repository
+
+```ruby
+# Gemfile (development / unreleased tip)
+gem "rivescript",
+    git: "https://github.com/LilOleByte/rivescript-rb.git",
+    tag: "v0.1.1"
+```
 
 ```bash
 bundle install
