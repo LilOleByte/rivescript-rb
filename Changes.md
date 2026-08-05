@@ -1,6 +1,6 @@
 # Changes
 
-## Unreleased
+## 0.1.2
 
 - Preserve `%previous` context when a turn returns `ERR: No Reply Matched`
   or `ERR: No Reply Found` (do not overwrite `history.reply[0]`)
