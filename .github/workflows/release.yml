@@ -37,7 +37,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: pkg/rivescript-*.gem
+          files: pkg/rivescript-rb-*.gem
           body: |
             RiveScript Ruby gem release.
 
@@ -46,13 +46,13 @@ jobs:
             Install from RubyGems:
 
             ```bash
-            gem install rivescript
+            gem install rivescript-rb
             ```
 
             Or in a Gemfile:
 
             ```ruby
-            gem "rivescript", "~> 0.1.1"
+            gem "rivescript-rb", "~> 0.1.1"
             ```
 
             Load the shipped brain in any app:

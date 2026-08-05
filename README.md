@@ -17,7 +17,7 @@ implementation.
 Add to your `Gemfile`:
 
 ```ruby
-gem "rivescript", "~> 0.1.1"
+gem "rivescript-rb", "~> 0.1.1"
 ```
 
 Then:
@@ -36,7 +36,7 @@ bundle exec riveshell
 ### System / user gem (CLI and scripts)
 
 ```bash
-gem install rivescript
+gem install rivescript-rb
 ```
 
 Put Ruby gem binaries on your `PATH` if needed:
@@ -55,15 +55,15 @@ riveshell
 
 ```ruby
 # Gemfile (development / unreleased tip)
-gem "rivescript",
+gem "rivescript-rb",
     git: "https://github.com/LilOleByte/rivescript-rb.git",
     tag: "v0.1.1"
 ```
 
 ```bash
 bundle install
-bundle exec rake package          # builds pkg/rivescript-0.1.1.gem + verifies contents
-gem install --user-install pkg/rivescript-0.1.1.gem
+bundle exec rake package          # builds pkg/rivescript-rb-0.1.1.gem + verifies contents
+gem install --user-install pkg/rivescript-rb-0.1.1.gem
 ```
 
 ## Usage

@@ -3,7 +3,7 @@
 require_relative "lib/rivescript/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "rivescript"
+  spec.name          = "rivescript-rb"
   spec.version       = RiveScript::VERSION
   spec.authors       = ["Byte"]
   spec.email         = ["byte@jvmlab.org"]

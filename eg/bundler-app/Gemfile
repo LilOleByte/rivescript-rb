@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Example: production-style use of the rivescript gem via Bundler.
+# Example: production-style use of the rivescript-rb gem via Bundler.
 #
 # From this directory:
 #   bundle install
@@ -9,4 +9,4 @@
 
 source "https://rubygems.org"
 
-gem "rivescript", path: "../.."
+gem "rivescript-rb", path: "../.."
