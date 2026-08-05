@@ -1,4 +1,4 @@
-# RiveScript-RB
+# RiveScript-rb
 
 A [RiveScript](https://www.rivescript.com/) interpreter for Ruby 3.3+.
 
