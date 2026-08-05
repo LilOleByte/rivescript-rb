@@ -15,3 +15,4 @@ necessarily available over the public API.
 * [rivescript.SessionManager](./sessions.md)
 * [rivescript.sorting](./sorting.md)
 * [rivescript.utils](./utils.md)
+* [Security auditing](./security.md)

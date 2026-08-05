@@ -95,6 +95,8 @@ Full API reference: [docs/](docs/README.md) (same layout as
 [rivescript-js/docs](https://github.com/aichaos/rivescript-js/tree/master/docs),
 adapted for Ruby).
 
+Security audits: [docs/security.md](docs/security.md) (`bundle exec rake security`).
+
 ## Interactive shell
 
 ```bash

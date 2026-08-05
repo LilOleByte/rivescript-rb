@@ -44,7 +44,9 @@ class RiveScript
         RUBY
 
         begin
-          eval(source, @binding, "(rivescript object #{name})", 1)
+          # Intentional: RiveScript object macros are host-language eval, gated by
+          # enable_object_macros / set_handler("ruby", nil). See docs/lang.ruby.md.
+          eval(source, @binding, "(rivescript object #{name})", 1) # rubocop:disable Security/Eval
         rescue StandardError => e
           @master.warn("Error evaluating Ruby object: #{e.message}")
         end

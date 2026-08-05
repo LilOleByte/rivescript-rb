@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Add Ruby `docs/` tree mirrored from rivescript-js docs (Ruby API only)
+- Add security auditing: bundler-audit + RuboCop Security cops (`rake security`)
 
 ## 0.1.2
 

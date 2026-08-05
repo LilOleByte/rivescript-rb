@@ -1,0 +1,24 @@
+name: Security
+
+on:
+  push:
+  pull_request:
+
+env:
+  BUNDLE_WITH: security
+
+jobs:
+  security:
+    name: bundler-audit + RuboCop Security
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Run security audits
+        run: bundle exec rake security

@@ -13,6 +13,32 @@ end
 
 task default: :test
 
+begin
+  require "bundler/audit/task"
+  Bundler::Audit::Task.new
+rescue LoadError
+  # bundler-audit is optional outside the :security group
+end
+
+begin
+  require "rubocop/rake_task"
+  RuboCop::RakeTask.new(:rubocop_security) do |task|
+    task.options = ["--config", ".rubocop.yml"]
+  end
+rescue LoadError
+  # rubocop is optional outside the :security group
+end
+
+desc "Run security audits (bundler-audit + RuboCop Security cops)"
+task :security do
+  unless defined?(Bundler::Audit::Task) && defined?(RuboCop::RakeTask)
+    abort "Install the :security group: bundle config set --local with security && bundle install"
+  end
+
+  Rake::Task["bundle:audit"].invoke
+  Rake::Task["rubocop_security"].invoke
+end
+
 REQUIRED_BRAIN = %w[
   begin.rive
   clients.rive

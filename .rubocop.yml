@@ -1,0 +1,32 @@
+# frozen_string_literal: true
+
+# Security-only RuboCop config (OccamsLabs-style).
+# Style/lint cops stay off; we only want security-relevant rules.
+
+AllCops:
+  DisabledByDefault: true
+  TargetRubyVersion: 3.3
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - "vendor/**/*"
+    - "pkg/**/*"
+    - "tmp/**/*"
+    - ".bundle/**/*"
+
+# Built-in Security department
+Security/Eval:
+  Enabled: true
+Security/JSONLoad:
+  Enabled: true
+Security/MarshalLoad:
+  Enabled: true
+Security/Open:
+  Enabled: true
+Security/YAMLLoad:
+  Enabled: true
+Security/CompoundHash:
+  Enabled: true
+
+Bundler/InsecureProtocolSource:
+  Enabled: true
