@@ -26,12 +26,12 @@ desc "Build the gem and check the small publish set (lib + brain + docs)"
 task :package do
   Rake::Task["build"].invoke
 
-  gem_path = Dir["pkg/rivescript-rb-*.gem"].max_by { |p| File.mtime(p) }
+  gem_path = Dir["pkg/rivescript-*.gem"].max_by { |p| File.mtime(p) }
   abort "No gem built under pkg/" unless gem_path
 
   listing = `gem unpack #{gem_path} --target /tmp 2>&1`
-  version = File.basename(gem_path, ".gem").sub(/\Arivescript-rb-/, "")
-  unpack_dir = "/tmp/rivescript-rb-#{version}"
+  version = File.basename(gem_path, ".gem").sub(/\Arivescript-/, "")
+  unpack_dir = "/tmp/rivescript-#{version}"
   abort "gem unpack failed:\n#{listing}" unless File.directory?(unpack_dir)
 
   missing = []

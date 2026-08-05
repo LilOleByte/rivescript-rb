@@ -45,7 +45,7 @@ jobs:
 
       - name: Install gem and load bundled brain
         run: |
-          gem_path=$(ls -1 pkg/rivescript-rb-*.gem | tail -1)
+          gem_path=$(ls -1 pkg/rivescript-*.gem | tail -1)
           gem install --local "$gem_path"
           ruby -e '
             require "rivescript"
@@ -64,5 +64,5 @@ jobs:
       - name: Upload gem artifact
         uses: actions/upload-artifact@v6
         with:
-          name: rivescript-rb-gem
-          path: pkg/rivescript-rb-*.gem
+          name: rivescript-gem
+          path: pkg/rivescript-*.gem
