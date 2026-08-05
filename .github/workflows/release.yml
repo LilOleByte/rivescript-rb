@@ -1,0 +1,56 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Publish gem release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Run tests
+        run: bundle exec rake test
+
+      - name: Build and verify package
+        run: bundle exec rake package
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: pkg/rivescript-*.gem
+          body: |
+            RiveScript Ruby gem release.
+
+            Includes the interpreter and the bundled sample brain (`eg/brain`).
+
+            Install from the attached `.gem`:
+
+            ```bash
+            gem install rivescript-*.gem
+            ```
+
+            Load the shipped brain in any app:
+
+            ```ruby
+            require "rivescript"
+            bot = RiveScript.new
+            bot.load_directory(RiveScript.brain_path)
+            bot.sort_replies
+            ```
+
+            See `Changes.md` for details.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

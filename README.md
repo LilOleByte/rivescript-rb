@@ -2,30 +2,70 @@
 
 A [RiveScript](https://www.rivescript.com/) interpreter for Ruby 3.3+.
 
-RiveScript is a scripting language for chatterbots, making it easy to write
-trigger/response pairs for building up a bot's intelligence.
-
-This project is a clean Ruby port maintained at [jvmlab.org](https://jvmlab.org/)
-by Byte (`byte@jvmlab.org`). It is derived from the MIT-licensed
-[rivescript-js](https://github.com/aichaos/rivescript-js) implementation.
+Maintained at [jvmlab.org](https://jvmlab.org/) by Byte (`byte@jvmlab.org`).
+Derived from the MIT-licensed [rivescript-js](https://github.com/aichaos/rivescript-js)
+implementation.
 
 ## Requirements
 
-* Ruby **3.3.8** (or compatible Ruby `>= 3.3.0`)
+* Ruby `>= 3.3.0` (developed on **3.3.8**)
 
-## Installation
+## Install (recommended)
 
-Add to your Gemfile:
+### In an application (Bundler)
+
+Add to your `Gemfile`:
 
 ```ruby
-gem "rivescript", path: "/path/to/rivescript-rb"
+# From GitHub (tagged release)
+gem "rivescript",
+    git: "https://github.com/LilOleByte/rivescript-rb.git",
+    tag: "v0.1.1"
+
+# Later, once published to RubyGems:
+# gem "rivescript", "~> 0.1.1"
 ```
 
-Or build and install locally:
+Then:
 
 ```bash
-gem build rivescript.gemspec
-gem install rivescript-*.gem
+bundle install
+```
+
+Use it only through Bundler:
+
+```bash
+bundle exec ruby app.rb
+bundle exec riveshell
+```
+
+### System / user gem (CLI and scripts)
+
+From a release `.gem` (CI artifact or local build):
+
+```bash
+gem install rivescript-0.1.1.gem
+```
+
+Put Ruby gem binaries on your `PATH` (once):
+
+```bash
+# User install location on this machine:
+export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+```
+
+Then:
+
+```bash
+riveshell
+```
+
+### Build from this repository
+
+```bash
+bundle install
+bundle exec rake package          # builds pkg/rivescript-0.1.1.gem + verifies contents
+gem install --user-install pkg/rivescript-0.1.1.gem
 ```
 
 ## Usage
@@ -34,14 +74,14 @@ gem install rivescript-*.gem
 require "rivescript"
 
 bot = RiveScript.new
-bot.load_directory("./eg/brain")
+bot.load_directory(RiveScript.brain_path)  # bundled sample brain
+# or: bot.load_directory("./my-custom-brain")
 bot.sort_replies
 
-reply = bot.reply("localuser", "Hello bot")
-puts reply
+puts bot.reply("localuser", "Hello bot")
 ```
 
-Load from a string instead of files:
+Load from a string:
 
 ```ruby
 bot = RiveScript.new
@@ -56,9 +96,9 @@ puts bot.reply("user", "hello bot")
 ## Interactive shell
 
 ```bash
-./bin/riveshell eg/brain
-# or after install:
-riveshell eg/brain
+bundle exec riveshell                 # Bundler apps
+riveshell                             # after gem install
+riveshell /path/to/custom-brain       # your own replies
 ```
 
 Options: `--debug`, `--utf8`.
@@ -74,20 +114,16 @@ Options: `--debug`, `--utf8`.
 - <set name=<call>setname <star></call>>Nice to meet you, <get name>.
 ```
 
-Object macros are evaluated with Ruby (`eval`). Only load trusted RiveScript.
-Disable them entirely with `RiveScript.new(enable_object_macros: false)`.
+Object macros run real Ruby. Only load brains you trust.
+Disable with `RiveScript.new(enable_object_macros: false)`.
 
-## Testing
+## Develop / test this gem
 
 ```bash
-rake test
-# or:
-ruby -Ilib:test -e 'Dir["test/**/test_*.rb"].each { |f| require "./#{f}" }'
+bundle install
+bundle exec rake test
+bundle exec rake package
 ```
-
-The suite covers RiveScript language behavior: triggers, replies, topics,
-begin blocks, math tags, substitutions, Unicode, options, API, and Ruby
-object macros.
 
 ## License
 

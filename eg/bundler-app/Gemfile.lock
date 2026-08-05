@@ -1,0 +1,22 @@
+PATH
+  remote: ../..
+  specs:
+    rivescript (0.1.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+
+PLATFORMS
+  ruby
+  x86_64-linux-gnu
+
+DEPENDENCIES
+  rivescript!
+
+CHECKSUMS
+  bundler (4.0.17) sha256=214e21431b5665dd2f99df8a5511c6b151d7a72e8015c8b38f8b775b61cbb6c1
+  rivescript (0.1.1)
+
+BUNDLED WITH
+  4.0.17

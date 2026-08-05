@@ -11,19 +11,26 @@ Gem::Specification.new do |spec|
   spec.summary       = "RiveScript interpreter for Ruby"
   spec.description   = "RiveScript is a scripting language for chatterbots. " \
                        "This gem is a Ruby 3.3 port of the RiveScript interpreter."
-  spec.homepage      = "https://jvmlab.org/"
+  spec.homepage      = "https://github.com/LilOleByte/rivescript-rb"
   spec.license       = "MIT"
   spec.required_ruby_version = ">= 3.3.0"
 
-  spec.metadata["homepage_uri"]    = spec.homepage
-  spec.metadata["source_code_uri"] = "https://jvmlab.org/"
-  spec.metadata["bug_tracker_uri"] = "https://jvmlab.org/"
+  spec.metadata = {
+    "homepage_uri" => "https://jvmlab.org/",
+    "source_code_uri" => "https://github.com/LilOleByte/rivescript-rb",
+    "changelog_uri" => "https://github.com/LilOleByte/rivescript-rb/blob/main/Changes.md",
+    "bug_tracker_uri" => "https://github.com/LilOleByte/rivescript-rb/issues",
+    "rubygems_mfa_required" => "true"
+  }
 
+  # Small publish set: library, shell, license/docs, and bundled brain.
   spec.files = Dir[
     "LICENSE",
     "README.md",
+    "Changes.md",
     "lib/**/*",
-    "bin/*"
+    "bin/*",
+    "eg/brain/**/*.rive"
   ]
   spec.bindir        = "bin"
   spec.executables   = ["riveshell"]

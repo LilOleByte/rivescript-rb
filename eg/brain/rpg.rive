@@ -214,10 +214,9 @@
 // Topic "puzzle" is a placeholder that sets all the directions to return
 // us to the crash site. puzzle inherits mars so that puzzle's directions
 // will override the directions of mars. All the steps of the puzzle then
-// "include" puzzle, and override only one direction. e.g. since "west"
+// inherit puzzle, and override only one direction. e.g. since "west"
 // exists in puzzle1, the response from puzzle1 is given, but if you're
-// in puzzle1 and type "north"... north was included from "puzzle", but
-// puzzle1 doesn't have a reply, so the reply from "puzzle" is given.
+// in puzzle1 and type "north"... north comes from "puzzle".
 
 > topic puzzle inherits mars
 	// Provides common directional functions for wandering around on Mars.
@@ -234,17 +233,15 @@
 	- {topic=crashsite}{@look}
 < topic
 
-> topic puzzle1 includes puzzle
+> topic puzzle1 inherits puzzle
 	+ look
 	- You wander to a part of the desert that looks different than other parts of the desert.
-
-	// We get 'exits' from crashsite
 
 	+ west
 	- {topic=puzzle2}{@look}
 < topic
 
-> topic puzzle2 includes puzzle
+> topic puzzle2 inherits puzzle
 	+ look
 	- This part looks even more different than the rest of the desert.
 

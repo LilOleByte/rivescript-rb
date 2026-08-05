@@ -26,3 +26,43 @@ jobs:
 
       - name: Run test suite
         run: bundle exec rake test
+
+  package:
+    name: Build gem + brain
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Build and verify package
+        run: bundle exec rake package
+
+      - name: Install gem and load bundled brain
+        run: |
+          gem_path=$(ls -1 pkg/rivescript-*.gem | tail -1)
+          gem install --local "$gem_path"
+          ruby -e '
+            require "rivescript"
+            path = RiveScript.brain_path
+            abort "missing brain: #{path}" unless File.directory?(path)
+            bot = RiveScript.new
+            bot.load_directory(path)
+            bot.sort_replies
+            reply = bot.reply("ci", "Hello bot")
+            abort "empty reply" if reply.to_s.strip.empty?
+            puts "brain=#{path}"
+            puts "reply=#{reply}"
+            puts "version=#{RiveScript::VERSION}"
+          '
+
+      - name: Upload gem artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rivescript-gem
+          path: pkg/rivescript-*.gem

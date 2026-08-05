@@ -30,6 +30,20 @@ class RiveScript
 
   alias _forceCase _force_case
 
+  # Gem / checkout root (directory that contains lib/ and eg/).
+  def self.root
+    File.expand_path("..", __dir__)
+  end
+
+  # Path to the bundled sample brain shipped with the gem.
+  #
+  #   bot = RiveScript.new
+  #   bot.load_directory(RiveScript.brain_path)
+  #   bot.sort_replies
+  def self.brain_path
+    File.join(root, "eg", "brain")
+  end
+
   # @param opts [Hash] configuration options
   # @option opts [Boolean] :debug debug mode (default false)
   # @option opts [Integer] :depth recursion depth limit (default 50)
