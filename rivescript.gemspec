@@ -28,6 +28,7 @@ Gem::Specification.new do |spec|
     "LICENSE",
     "README.md",
     "Changes.md",
+    "docs/**/*",
     "lib/**/*",
     "bin/*",
     "eg/brain/**/*.rive"

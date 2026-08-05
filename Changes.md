@@ -1,5 +1,9 @@
 # Changes
 
+## Unreleased
+
+- Add Ruby `docs/` tree mirrored from rivescript-js docs (Ruby API only)
+
 ## 0.1.2
 
 - Preserve `%previous` context when a turn returns `ERR: No Reply Matched`

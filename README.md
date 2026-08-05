@@ -91,6 +91,10 @@ bot.sort_replies
 puts bot.reply("user", "hello bot")
 ```
 
+Full API reference: [docs/](docs/README.md) (same layout as
+[rivescript-js/docs](https://github.com/aichaos/rivescript-js/tree/master/docs),
+adapted for Ruby).
+
 ## Interactive shell
 
 ```bash
