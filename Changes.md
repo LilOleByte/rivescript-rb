@@ -4,6 +4,7 @@
 
 - Add Ruby `docs/` tree mirrored from rivescript-js docs (Ruby API only)
 - Add security auditing: bundler-audit + RuboCop Security cops (`rake security`)
+- Add `eg/irc-bot` example: RiveScript chatbot over IRC (stdlib sockets)
 
 ## 0.1.2
 
